@@ -1230,4 +1230,164 @@ class EnhancedEvolutionEngine:
     
     def _apply_llm_mutations(self) -> None:
         """应用LLM辅助变异"""
-        # 选择表
+        # 选择表现较差的个体进行LLM辅助变异
+        sorted_population = sorted(self.population, key=lambda x: x.get_total_fitness())
+        bottom_quarter = sorted_population[:len(sorted_population) // 4]
+        
+        for individual in bottom_quarter:
+            if random.random() < 0.5:  # 50%概率进行LLM变异
+                fitness_feedback = individual.objectives.copy()
+                mutated = self.llm_mutator.llm_guided_mutation(individual, fitness_feedback)
+                
+                # 替换原个体
+                index = self.population.index(individual)
+                self.population[index] = mutated
+        
+        logger.debug(f"应用LLM辅助变异到 {len(bottom_quarter)} 个个体")
+    
+    def get_evolution_state(self) -> Dict[str, Any]:
+        """获取进化状态"""
+        return {
+            'generation': self.generation,
+            'population_size': len(self.population),
+            'best_fitness': max(ind.get_total_fitness() for ind in self.population) if self.population else 0.0,
+            'average_fitness': sum(ind.get_total_fitness() for ind in self.population) / len(self.population) if self.population else 0.0,
+            'diversity': self._calculate_population_diversity(),
+            'species_count': len(self.neat_engine.species),
+            'archive_size': len(self.qd_engine.archive),
+            'stats': self.stats.copy(),
+            'config': {
+                'algorithm': self.config.algorithm.value,
+                'population_size': self.config.population_size,
+                'mutation_rate': self.config.mutation_rate,
+                'crossover_rate': self.config.crossover_rate
+            }
+        }
+    
+    def save_state(self, filepath: str) -> None:
+        """保存进化状态"""
+        state = {
+            'generation': self.generation,
+            'population': [{
+                'individual_id': ind.individual_id,
+                'genome': ind.genome,
+                'fitness_scores': ind.fitness_scores,
+                'objectives': ind.objectives,
+                'generation': ind.generation,
+                'parent_ids': ind.parent_ids,
+                'mutation_history': ind.mutation_history
+            } for ind in self.population],
+            'best_individuals': [{
+                'individual_id': ind.individual_id,
+                'genome': ind.genome,
+                'fitness_scores': ind.fitness_scores,
+                'generation': ind.generation
+            } for ind in self.best_individuals],
+            'stats': self.stats,
+            'config': {
+                'population_size': self.config.population_size,
+                'max_generations': self.config.max_generations,
+                'mutation_rate': self.config.mutation_rate,
+                'crossover_rate': self.config.crossover_rate,
+                'algorithm': self.config.algorithm.value
+            }
+        }
+        
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(state, f, indent=2, ensure_ascii=False)
+        
+        logger.info(f"进化状态已保存到 {filepath}")
+    
+    def load_state(self, filepath: str) -> None:
+        """加载进化状态"""
+        with open(filepath, 'r', encoding='utf-8') as f:
+            state = json.load(f)
+        
+        self.generation = state['generation']
+        self.stats = state['stats']
+        
+        # 重建种群
+        self.population = []
+        for ind_data in state['population']:
+            individual = Individual(
+                individual_id=ind_data['individual_id'],
+                genome=ind_data['genome'],
+                fitness_scores=ind_data['fitness_scores'],
+                objectives=ind_data['objectives'],
+                generation=ind_data['generation'],
+                parent_ids=ind_data['parent_ids'],
+                mutation_history=ind_data['mutation_history']
+            )
+            self.population.append(individual)
+        
+        # 重建最佳个体历史
+        self.best_individuals = []
+        for ind_data in state['best_individuals']:
+            individual = Individual(
+                individual_id=ind_data['individual_id'],
+                genome=ind_data['genome'],
+                fitness_scores=ind_data['fitness_scores'],
+                generation=ind_data['generation']
+            )
+            self.best_individuals.append(individual)
+        
+        logger.info(f"进化状态已从 {filepath} 加载")
+    
+    def stop_evolution(self) -> None:
+        """停止进化过程"""
+        self.is_running = False
+        logger.info("进化过程停止请求已发送")
+
+if __name__ == "__main__":
+    # 测试代码
+    logger.info("增强型进化引擎测试开始")
+    
+    # 创建配置
+    config = EvolutionConfig(
+        population_size=50,
+        max_generations=100,
+        algorithm=EvolutionAlgorithm.HYBRID,
+        mutation_rate=0.1,
+        crossover_rate=0.8
+    )
+    
+    # 创建进化引擎
+    engine = EnhancedEvolutionEngine(config)
+    
+    # 定义简单的评估函数
+    def simple_evaluation(individual: Individual) -> Dict[str, float]:
+        """简单的评估函数示例"""
+        fitness = 0.0
+        
+        # 基于基因组计算适应度
+        for gene_name, gene_value in individual.genome.items():
+            if isinstance(gene_value, (int, float)):
+                # 简单的适应度函数：接近1.0的基因值获得更高分数
+                fitness += 1.0 - abs(gene_value - 1.0)
+        
+        return {
+            'fitness': fitness / len(individual.genome) if individual.genome else 0.0,
+            'efficiency': random.uniform(0.3, 1.0),
+            'robustness': random.uniform(0.2, 0.9),
+            'adaptability': random.uniform(0.1, 0.8),
+            'novelty': random.uniform(0.0, 1.0)
+        }
+    
+    # 初始化种群
+    engine.initialize_population()
+    
+    # 运行几代进化
+    logger.info("开始测试进化过程")
+    
+    for generation in range(5):
+        engine.evolve_generation(simple_evaluation)
+        
+        state = engine.get_evolution_state()
+        logger.info(f"第 {state['generation']} 代: 最佳适应度={state['best_fitness']:.3f}, "
+                   f"平均适应度={state['average_fitness']:.3f}, 多样性={state['diversity']:.3f}")
+    
+    # 获取最终状态
+    final_state = engine.get_evolution_state()
+    logger.info(f"测试完成，最终状态: {final_state}")
+    
+    logger.info("增强型进化引擎测试完成")
