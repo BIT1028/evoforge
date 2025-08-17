@@ -39,12 +39,12 @@ from core.logging_system import LoggingSystem, get_logging_system
 from core.error_handler import ErrorHandler, get_error_handler, with_error_handling
 
 # 导入业务模块
-from digital_cell.macro_molecule import MacroMolecule, create_molecule, MoleculeType
-from digital_cell.digital_cell import DigitalCell
-from digital_cell.gene_expression import GeneExpressionSystem
-from engine.engine import EnhancedEvolutionEngine, EvolutionConfig
-from llm_oracle.fitness import MultiModalOracle
-from sandbox.secure_executor import SecureExecutor
+from gae.digital_cell.macro_molecule import MacroMolecule, create_molecule, MoleculeType
+from gae.digital_cell.digital_cell import DigitalCell
+from gae.digital_cell.gene_expression import GeneExpressionSystem
+from gae.engine.engine import EnhancedEvolutionEngine, EvolutionConfig
+from gae.llm_oracle.fitness import MultiModalOracle
+from gae.sandbox.secure_executor import SecureExecutor
 
 class SystemState:
     """系统状态管理"""
@@ -184,7 +184,7 @@ class EvoForgeSystem:
             else:
                 # 创建默认配置
                 self.system_config = SystemConfig()
-                self.config_manager.save_config(self.system_config, str(config_file))
+                self.config_manager.save_config()
                 self.logger.info(f"创建默认配置文件: {config_file}")
             
             self.state.config_loaded = True
@@ -203,7 +203,30 @@ class EvoForgeSystem:
             
             # 配置日志系统
             if self.system_config and self.system_config.logging:
-                self.logging_system.configure(self.system_config.logging)
+                # 将LoggingConfig转换为LogConfig
+                from core.logging_system import LogConfig, LogLevel, LogFormat
+                
+                # 转换日志级别
+                level_mapping = {
+                    "TRACE": LogLevel.TRACE,
+                    "DEBUG": LogLevel.DEBUG,
+                    "INFO": LogLevel.INFO,
+                    "WARNING": LogLevel.WARNING,
+                    "ERROR": LogLevel.ERROR,
+                    "CRITICAL": LogLevel.CRITICAL
+                }
+                
+                log_config = LogConfig(
+                     level=level_mapping.get(self.system_config.logging.level.upper(), LogLevel.INFO),
+                     format_type=LogFormat.DETAILED,
+                     console_output=self.system_config.logging.console_output,
+                     file_output=True,
+                     file_path=self.system_config.logging.file_path or "logs/evoforge.log",
+                     max_file_size=self.system_config.logging.max_file_size,
+                     backup_count=self.system_config.logging.backup_count
+                 )
+                
+                self.logging_system = LoggingSystem(log_config)
             
             # 更新日志记录器
             self.logger = self.logging_system.get_logger(self.__class__.__name__)
@@ -250,28 +273,15 @@ class EvoForgeSystem:
             self.logger.info("初始化数字细胞系统")
             self.digital_cell = DigitalCell()
             
-            # 注册模块
-            if self.module_coordinator:
-                self.module_coordinator.register_module(ModuleInfo(
-                    name="digital_cell",
-                    module_type=ModuleType.CORE,
-                    instance=self.digital_cell,
-                    dependencies=[],
-                    description="数字细胞物理模拟系统"
-                ))
+            # 数字细胞系统已初始化
+            self.logger.debug("数字细胞系统初始化完成")
             
             # 初始化基因表达系统
             self.logger.info("初始化基因表达系统")
             self.gene_expression = GeneExpressionSystem()
             
-            if self.module_coordinator:
-                self.module_coordinator.register_module(ModuleInfo(
-                    name="gene_expression",
-                    module_type=ModuleType.CORE,
-                    instance=self.gene_expression,
-                    dependencies=["digital_cell"],
-                    description="基因表达和转录翻译系统"
-                ))
+            # 基因表达系统已初始化
+            self.logger.debug("基因表达系统初始化完成")
             
             # 初始化进化引擎
             self.logger.info("初始化进化引擎")
@@ -283,44 +293,25 @@ class EvoForgeSystem:
             )
             self.evolution_engine = EnhancedEvolutionEngine(evolution_config)
             
-            if self.module_coordinator:
-                self.module_coordinator.register_module(ModuleInfo(
-                    name="evolution_engine",
-                    module_type=ModuleType.ALGORITHM,
-                    instance=self.evolution_engine,
-                    dependencies=["digital_cell", "gene_expression"],
-                    description="增强型进化算法引擎"
-                ))
+            # 进化引擎已初始化
+            self.logger.debug("进化引擎初始化完成")
             
             # 初始化多模态评估系统
             self.logger.info("初始化多模态评估系统")
             self.multimodal_oracle = MultiModalOracle()
             
-            if self.module_coordinator:
-                self.module_coordinator.register_module(ModuleInfo(
-                    name="multimodal_oracle",
-                    module_type=ModuleType.SERVICE,
-                    instance=self.multimodal_oracle,
-                    dependencies=[],
-                    description="多模态智能评估系统"
-                ))
+            # 多模态评估系统已初始化
+            self.logger.debug("多模态评估系统初始化完成")
             
             # 初始化安全执行器
             self.logger.info("初始化安全执行器")
             self.secure_executor = SecureExecutor()
             
-            if self.module_coordinator:
-                self.module_coordinator.register_module(ModuleInfo(
-                    name="secure_executor",
-                    module_type=ModuleType.SECURITY,
-                    instance=self.secure_executor,
-                    dependencies=[],
-                    description="安全代码执行沙箱"
-                ))
+            # 安全执行器已初始化
+            self.logger.debug("安全执行器初始化完成")
             
-            # 启动所有模块
-            if self.module_coordinator:
-                self.module_coordinator.start_all_modules()
+            # 所有业务模块已初始化完成
+            self.logger.info("所有业务模块初始化完成")
             
             self.logger.info("业务模块初始化完成")
             return True

@@ -1,0 +1,67 @@
+{
+  "app_name": "EvoForge",
+  "version": "1.0.0",
+  "debug": false,
+  "environment": "development",
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "database": "evoforge",
+    "username": "postgres",
+    "password": "",
+    "pool_size": 10,
+    "max_overflow": 20,
+    "pool_timeout": 30,
+    "pool_recycle": 3600,
+    "pool_pre_ping": true,
+    "async_pool_size": 20,
+    "async_max_overflow": 30,
+    "async_pool_timeout": 30,
+    "enable_timescaledb": true,
+    "timescale_chunk_time_interval": "1 day",
+    "timescale_retention_policy": "30 days",
+    "enable_compression": true,
+    "compression_after": "7 days",
+    "statement_timeout": 30000,
+    "lock_timeout": 10000,
+    "idle_in_transaction_session_timeout": 60000,
+    "ssl_mode": "prefer",
+    "ssl_cert": null,
+    "ssl_key": null,
+    "ssl_ca": null,
+    "connect_timeout": 10,
+    "command_timeout": 60,
+    "server_settings": {
+      "application_name": "EvoForge",
+      "timezone": "UTC"
+    }
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "file_path": null,
+    "max_file_size": 10485760,
+    "backup_count": 5,
+    "console_output": true
+  },
+  "security": {
+    "secret_key": "",
+    "jwt_secret": "",
+    "jwt_expiration": 3600,
+    "password_min_length": 8,
+    "max_login_attempts": 5,
+    "session_timeout": 1800,
+    "encryption_algorithm": "AES-256-GCM"
+  },
+  "performance": {
+    "max_workers": 4,
+    "thread_pool_size": 10,
+    "process_pool_size": 2,
+    "cache_size": 1000,
+    "cache_ttl": 3600,
+    "batch_size": 100,
+    "timeout": 30.0
+  },
+  "modules": {},
+  "custom": {}
+}

@@ -265,9 +265,14 @@ class PerformanceMonitor:
                 self.record_gauge("system.memory.used_mb", memory.used / 1024 / 1024)
                 
                 # 磁盘使用情况
-                disk = psutil.disk_usage('/')
-                self.record_gauge("system.disk.usage_percent", (disk.used / disk.total) * 100)
-                self.record_gauge("system.disk.free_gb", disk.free / 1024 / 1024 / 1024)
+                try:
+                    # Windows使用C:，Unix使用/
+                    disk_path = 'C:\\' if os.name == 'nt' else '/'
+                    disk = psutil.disk_usage(disk_path)
+                    self.record_gauge("system.disk.usage_percent", (disk.used / disk.total) * 100)
+                    self.record_gauge("system.disk.free_gb", disk.free / 1024 / 1024 / 1024)
+                except Exception as disk_error:
+                    self.logger.warning(f"磁盘监控失败: {disk_error}")
                 
                 # 进程信息
                 process = psutil.Process()

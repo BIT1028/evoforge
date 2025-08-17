@@ -1,0 +1,275 @@
+2025-08-17 17:36:06 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:36:06 [    INFO] LoggingSystem:486 - 日志系统初始化完成
+2025-08-17 17:36:06 [   ERROR] EvoForgeSystem:215 - 日志系统初始化失败: 'LoggingSystem' object has no attribute 'configure'
+2025-08-17 17:36:06 [   ERROR] EvoForgeSystem:344 - 系统初始化失败，无法启动
+2025-08-17 17:36:06 [   ERROR] main:722 - 系统启动失败
+2025-08-17 17:37:36 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:37:36 [    INFO] LoggingSystem:486 - 日志系统初始化完成
+2025-08-17 17:37:36 [   ERROR] EvoForgeSystem:215 - 日志系统初始化失败: 'str' object has no attribute 'value'
+2025-08-17 17:37:36 [   ERROR] EvoForgeSystem:344 - 系统初始化失败，无法启动
+2025-08-17 17:37:36 [   ERROR] main:722 - 系统启动失败
+2025-08-17 17:39:31 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:39:31 [    INFO] LoggingSystem:486 - 日志系统初始化完成
+2025-08-17 17:39:31 [   ERROR] EvoForgeSystem:238 - 日志系统初始化失败: expected str, bytes or os.PathLike object, not NoneType
+2025-08-17 17:39:31 [   ERROR] EvoForgeSystem:367 - 系统初始化失败，无法启动
+2025-08-17 17:39:31 [   ERROR] main:745 - 系统启动失败
+2025-08-17 17:41:55 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:41:55 [    INFO] LoggingSystem:491 - 日志系统初始化完成
+2025-08-17 17:41:55 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:41:55 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:41:55 [    INFO] LoggingSystem:491 - 日志系统初始化完成
+2025-08-17 17:41:55 [    INFO] LoggingSystem:491 - 日志系统初始化完成
+2025-08-17 17:41:55 [    INFO] EvoForgeSystem:234 - 日志系统初始化完成
+2025-08-17 17:41:55 [    INFO] EvoForgeSystem:234 - 日志系统初始化完成
+2025-08-17 17:41:55 [    INFO] EvoForgeSystem:244 - 初始化错误处理器
+2025-08-17 17:41:55 [    INFO] EvoForgeSystem:244 - 初始化错误处理器
+2025-08-17 17:41:55 [    INFO] EvoForgeSystem:247 - 错误处理器初始化完成
+2025-08-17 17:41:55 [    INFO] EvoForgeSystem:247 - 错误处理器初始化完成
+2025-08-17 17:41:55 [    INFO] EvoForgeSystem:257 - 初始化模块协调器
+2025-08-17 17:41:55 [    INFO] EvoForgeSystem:257 - 初始化模块协调器
+2025-08-17 17:41:55 [    INFO] ModuleCoordinator:463 - 模块协调器初始化完成
+2025-08-17 17:41:55 [    INFO] ModuleCoordinator:463 - 模块协调器初始化完成
+2025-08-17 17:41:55 [    INFO] EvoForgeSystem:260 - 模块协调器初始化完成
+2025-08-17 17:41:55 [    INFO] EvoForgeSystem:260 - 模块协调器初始化完成
+2025-08-17 17:41:55 [    INFO] EvoForgeSystem:270 - 初始化业务模块
+2025-08-17 17:41:55 [    INFO] EvoForgeSystem:270 - 初始化业务模块
+2025-08-17 17:41:55 [    INFO] EvoForgeSystem:273 - 初始化数字细胞系统
+2025-08-17 17:41:55 [    INFO] EvoForgeSystem:273 - 初始化数字细胞系统
+2025-08-17 17:41:55 [   ERROR] EvoForgeSystem:352 - 业务模块初始化失败: PhysicsEngine.__init__() got an unexpected keyword argument 'boundary_size'
+2025-08-17 17:41:55 [   ERROR] EvoForgeSystem:352 - 业务模块初始化失败: PhysicsEngine.__init__() got an unexpected keyword argument 'boundary_size'
+2025-08-17 17:41:55 [   ERROR] EvoForgeSystem:367 - 系统初始化失败，无法启动
+2025-08-17 17:41:55 [   ERROR] EvoForgeSystem:367 - 系统初始化失败，无法启动
+2025-08-17 17:41:55 [   ERROR] main:745 - 系统启动失败
+2025-08-17 17:41:55 [   ERROR] main:745 - 系统启动失败
+2025-08-17 17:42:57 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:42:57 [    INFO] LoggingSystem:491 - 日志系统初始化完成
+2025-08-17 17:42:57 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:42:57 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:42:57 [    INFO] LoggingSystem:491 - 日志系统初始化完成
+2025-08-17 17:42:57 [    INFO] LoggingSystem:491 - 日志系统初始化完成
+2025-08-17 17:42:57 [    INFO] EvoForgeSystem:234 - 日志系统初始化完成
+2025-08-17 17:42:57 [    INFO] EvoForgeSystem:234 - 日志系统初始化完成
+2025-08-17 17:42:57 [    INFO] EvoForgeSystem:244 - 初始化错误处理器
+2025-08-17 17:42:57 [    INFO] EvoForgeSystem:244 - 初始化错误处理器
+2025-08-17 17:42:57 [    INFO] EvoForgeSystem:247 - 错误处理器初始化完成
+2025-08-17 17:42:57 [    INFO] EvoForgeSystem:247 - 错误处理器初始化完成
+2025-08-17 17:42:57 [    INFO] EvoForgeSystem:257 - 初始化模块协调器
+2025-08-17 17:42:57 [    INFO] EvoForgeSystem:257 - 初始化模块协调器
+2025-08-17 17:42:57 [    INFO] ModuleCoordinator:463 - 模块协调器初始化完成
+2025-08-17 17:42:57 [    INFO] ModuleCoordinator:463 - 模块协调器初始化完成
+2025-08-17 17:42:57 [    INFO] EvoForgeSystem:260 - 模块协调器初始化完成
+2025-08-17 17:42:57 [    INFO] EvoForgeSystem:260 - 模块协调器初始化完成
+2025-08-17 17:42:57 [    INFO] EvoForgeSystem:270 - 初始化业务模块
+2025-08-17 17:42:57 [    INFO] EvoForgeSystem:270 - 初始化业务模块
+2025-08-17 17:42:57 [    INFO] EvoForgeSystem:273 - 初始化数字细胞系统
+2025-08-17 17:42:57 [    INFO] EvoForgeSystem:273 - 初始化数字细胞系统
+2025-08-17 17:42:57 [    INFO] gae.digital_cell.physics_engine:396 - 物理引擎初始化完成: 边界=(Vector3D(x=-50.0, y=-50.0, z=-50.0), Vector3D(x=50.0, y=50.0, z=50.0)), 网格大小=5.0, 温度=310.0K
+2025-08-17 17:42:57 [    INFO] gae.digital_cell.physics_engine:396 - 物理引擎初始化完成: 边界=(Vector3D(x=-50.0, y=-50.0, z=-50.0), Vector3D(x=50.0, y=50.0, z=50.0)), 网格大小=5.0, 温度=310.0K
+2025-08-17 17:42:57 [    INFO] gae.digital_cell.digital_cell:597 - 创建数字细胞 13f1ef1e-c821-4371-9d38-1bca25b6a2b9，位置: (0.0, 0.0, 0.0)
+2025-08-17 17:42:57 [    INFO] gae.digital_cell.digital_cell:597 - 创建数字细胞 13f1ef1e-c821-4371-9d38-1bca25b6a2b9，位置: (0.0, 0.0, 0.0)
+2025-08-17 17:42:57 [   ERROR] EvoForgeSystem:352 - 业务模块初始化失败: ModuleInfo.__init__() got an unexpected keyword argument 'instance'
+2025-08-17 17:42:57 [   ERROR] EvoForgeSystem:352 - 业务模块初始化失败: ModuleInfo.__init__() got an unexpected keyword argument 'instance'
+2025-08-17 17:42:57 [   ERROR] EvoForgeSystem:367 - 系统初始化失败，无法启动
+2025-08-17 17:42:57 [   ERROR] EvoForgeSystem:367 - 系统初始化失败，无法启动
+2025-08-17 17:42:57 [   ERROR] main:745 - 系统启动失败
+2025-08-17 17:42:57 [   ERROR] main:745 - 系统启动失败
+2025-08-17 17:44:36 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:44:36 [    INFO] LoggingSystem:491 - 日志系统初始化完成
+2025-08-17 17:44:36 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:44:36 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:44:36 [    INFO] LoggingSystem:491 - 日志系统初始化完成
+2025-08-17 17:44:36 [    INFO] LoggingSystem:491 - 日志系统初始化完成
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:234 - 日志系统初始化完成
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:234 - 日志系统初始化完成
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:244 - 初始化错误处理器
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:244 - 初始化错误处理器
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:247 - 错误处理器初始化完成
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:247 - 错误处理器初始化完成
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:257 - 初始化模块协调器
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:257 - 初始化模块协调器
+2025-08-17 17:44:36 [    INFO] ModuleCoordinator:463 - 模块协调器初始化完成
+2025-08-17 17:44:36 [    INFO] ModuleCoordinator:463 - 模块协调器初始化完成
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:260 - 模块协调器初始化完成
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:260 - 模块协调器初始化完成
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:270 - 初始化业务模块
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:270 - 初始化业务模块
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:273 - 初始化数字细胞系统
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:273 - 初始化数字细胞系统
+2025-08-17 17:44:36 [    INFO] gae.digital_cell.physics_engine:396 - 物理引擎初始化完成: 边界=(Vector3D(x=-50.0, y=-50.0, z=-50.0), Vector3D(x=50.0, y=50.0, z=50.0)), 网格大小=5.0, 温度=310.0K
+2025-08-17 17:44:36 [    INFO] gae.digital_cell.physics_engine:396 - 物理引擎初始化完成: 边界=(Vector3D(x=-50.0, y=-50.0, z=-50.0), Vector3D(x=50.0, y=50.0, z=50.0)), 网格大小=5.0, 温度=310.0K
+2025-08-17 17:44:36 [    INFO] gae.digital_cell.digital_cell:597 - 创建数字细胞 8c8b51e6-7f9f-48a4-bbd1-da511a069050，位置: (0.0, 0.0, 0.0)
+2025-08-17 17:44:36 [    INFO] gae.digital_cell.digital_cell:597 - 创建数字细胞 8c8b51e6-7f9f-48a4-bbd1-da511a069050，位置: (0.0, 0.0, 0.0)
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:280 - 初始化基因表达系统
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:280 - 初始化基因表达系统
+2025-08-17 17:44:36 [    INFO] gae.digital_cell.gene_expression:588 - 基因表达系统初始化完成
+2025-08-17 17:44:36 [    INFO] gae.digital_cell.gene_expression:588 - 基因表达系统初始化完成
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:287 - 初始化进化引擎
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:287 - 初始化进化引擎
+2025-08-17 17:44:36 [    INFO] gae.engine.engine:849 - 增强型进化引擎初始化完成，算法: hybrid
+2025-08-17 17:44:36 [    INFO] gae.engine.engine:849 - 增强型进化引擎初始化完成，算法: hybrid
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:300 - 初始化多模态评估系统
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:300 - 初始化多模态评估系统
+2025-08-17 17:44:36 [    INFO] gae.llm_oracle.fitness:480 - 多模态评估系统初始化完成，工作线程数: 4
+2025-08-17 17:44:36 [    INFO] gae.llm_oracle.fitness:480 - 多模态评估系统初始化完成，工作线程数: 4
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:307 - 初始化安全执行器
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:307 - 初始化安全执行器
+2025-08-17 17:44:36 [    INFO] gae.sandbox.secure_executor:607 - 安全执行器初始化完成
+2025-08-17 17:44:36 [    INFO] gae.sandbox.secure_executor:607 - 安全执行器初始化完成
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:314 - 所有业务模块初始化完成
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:314 - 所有业务模块初始化完成
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:316 - 业务模块初始化完成
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:316 - 业务模块初始化完成
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:166 - EvoForge 系统初始化完成
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:166 - EvoForge 系统初始化完成
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:341 - EvoForge 系统启动成功
+2025-08-17 17:44:36 [    INFO] EvoForgeSystem:341 - EvoForge 系统启动成功
+2025-08-17 17:44:36 [    INFO] main:705 - 系统运行中，按 Ctrl+C 退出
+2025-08-17 17:44:36 [    INFO] main:705 - 系统运行中，按 Ctrl+C 退出
+2025-08-17 17:45:00 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:45:00 [    INFO] LoggingSystem:491 - 日志系统初始化完成
+2025-08-17 17:45:00 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:45:00 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:45:00 [    INFO] LoggingSystem:491 - 日志系统初始化完成
+2025-08-17 17:45:00 [    INFO] LoggingSystem:491 - 日志系统初始化完成
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:234 - 日志系统初始化完成
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:234 - 日志系统初始化完成
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:244 - 初始化错误处理器
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:244 - 初始化错误处理器
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:247 - 错误处理器初始化完成
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:247 - 错误处理器初始化完成
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:257 - 初始化模块协调器
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:257 - 初始化模块协调器
+2025-08-17 17:45:00 [    INFO] ModuleCoordinator:463 - 模块协调器初始化完成
+2025-08-17 17:45:00 [    INFO] ModuleCoordinator:463 - 模块协调器初始化完成
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:260 - 模块协调器初始化完成
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:260 - 模块协调器初始化完成
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:270 - 初始化业务模块
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:270 - 初始化业务模块
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:273 - 初始化数字细胞系统
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:273 - 初始化数字细胞系统
+2025-08-17 17:45:00 [    INFO] gae.digital_cell.physics_engine:396 - 物理引擎初始化完成: 边界=(Vector3D(x=-50.0, y=-50.0, z=-50.0), Vector3D(x=50.0, y=50.0, z=50.0)), 网格大小=5.0, 温度=310.0K
+2025-08-17 17:45:00 [    INFO] gae.digital_cell.physics_engine:396 - 物理引擎初始化完成: 边界=(Vector3D(x=-50.0, y=-50.0, z=-50.0), Vector3D(x=50.0, y=50.0, z=50.0)), 网格大小=5.0, 温度=310.0K
+2025-08-17 17:45:00 [    INFO] gae.digital_cell.digital_cell:597 - 创建数字细胞 7547450e-49f3-419b-923e-b7097b2f74ab，位置: (0.0, 0.0, 0.0)
+2025-08-17 17:45:00 [    INFO] gae.digital_cell.digital_cell:597 - 创建数字细胞 7547450e-49f3-419b-923e-b7097b2f74ab，位置: (0.0, 0.0, 0.0)
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:280 - 初始化基因表达系统
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:280 - 初始化基因表达系统
+2025-08-17 17:45:00 [    INFO] gae.digital_cell.gene_expression:588 - 基因表达系统初始化完成
+2025-08-17 17:45:00 [    INFO] gae.digital_cell.gene_expression:588 - 基因表达系统初始化完成
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:287 - 初始化进化引擎
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:287 - 初始化进化引擎
+2025-08-17 17:45:00 [    INFO] gae.engine.engine:849 - 增强型进化引擎初始化完成，算法: hybrid
+2025-08-17 17:45:00 [    INFO] gae.engine.engine:849 - 增强型进化引擎初始化完成，算法: hybrid
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:300 - 初始化多模态评估系统
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:300 - 初始化多模态评估系统
+2025-08-17 17:45:00 [    INFO] gae.llm_oracle.fitness:480 - 多模态评估系统初始化完成，工作线程数: 4
+2025-08-17 17:45:00 [    INFO] gae.llm_oracle.fitness:480 - 多模态评估系统初始化完成，工作线程数: 4
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:307 - 初始化安全执行器
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:307 - 初始化安全执行器
+2025-08-17 17:45:00 [    INFO] gae.sandbox.secure_executor:607 - 安全执行器初始化完成
+2025-08-17 17:45:00 [    INFO] gae.sandbox.secure_executor:607 - 安全执行器初始化完成
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:314 - 所有业务模块初始化完成
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:314 - 所有业务模块初始化完成
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:316 - 业务模块初始化完成
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:316 - 业务模块初始化完成
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:166 - EvoForge 系统初始化完成
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:166 - EvoForge 系统初始化完成
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:341 - EvoForge 系统启动成功
+2025-08-17 17:45:00 [    INFO] EvoForgeSystem:341 - EvoForge 系统启动成功
+2025-08-17 17:45:00 [    INFO] main:705 - 系统运行中，按 Ctrl+C 退出
+2025-08-17 17:45:00 [    INFO] main:705 - 系统运行中，按 Ctrl+C 退出
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:129 - 接收到信号 2，开始优雅关闭
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:129 - 接收到信号 2，开始优雅关闭
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:357 - 开始关闭 EvoForge 系统
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:357 - 开始关闭 EvoForge 系统
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:362 - 停止所有模块
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:362 - 停止所有模块
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:388 - 关闭安全执行器
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:388 - 关闭安全执行器
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:394 - 关闭多模态评估系统
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:394 - 关闭多模态评估系统
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:400 - 关闭进化引擎
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:400 - 关闭进化引擎
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:406 - 关闭基因表达系统
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:406 - 关闭基因表达系统
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:412 - 关闭数字细胞系统
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:412 - 关闭数字细胞系统
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:424 - 关闭错误处理器
+2025-08-17 17:45:07 [    INFO] EvoForgeSystem:424 - 关闭错误处理器
+2025-08-17 17:45:07 [    INFO] ErrorHandler:801 - 正在关闭错误处理器
+2025-08-17 17:45:07 [    INFO] ErrorHandler:801 - 正在关闭错误处理器
+2025-08-17 17:45:12 [    INFO] EvoForgeSystem:129 - 接收到信号 2，开始优雅关闭
+2025-08-17 17:45:12 [    INFO] EvoForgeSystem:129 - 接收到信号 2，开始优雅关闭
+2025-08-17 17:45:12 [ WARNING] EvoForgeSystem:354 - 系统已经在关闭过程中
+2025-08-17 17:45:12 [ WARNING] EvoForgeSystem:354 - 系统已经在关闭过程中
+2025-08-17 17:45:12 [    INFO] ErrorHandler:636 - 健康监控已停止
+2025-08-17 17:45:12 [    INFO] ErrorHandler:636 - 健康监控已停止
+2025-08-17 17:45:12 [    INFO] ErrorHandler:803 - 错误处理器已关闭
+2025-08-17 17:45:12 [    INFO] ErrorHandler:803 - 错误处理器已关闭
+2025-08-17 17:45:12 [    INFO] EvoForgeSystem:430 - 关闭模块协调器
+2025-08-17 17:45:12 [    INFO] EvoForgeSystem:430 - 关闭模块协调器
+2025-08-17 17:45:12 [    INFO] EvoForgeSystem:375 - EvoForge 系统关闭完成
+2025-08-17 17:45:12 [    INFO] EvoForgeSystem:375 - EvoForge 系统关闭完成
+2025-08-17 17:45:12 [    INFO] EvoForgeSystem:357 - 开始关闭 EvoForge 系统
+2025-08-17 17:45:12 [    INFO] EvoForgeSystem:357 - 开始关闭 EvoForge 系统
+2025-08-17 17:45:12 [    INFO] EvoForgeSystem:362 - 停止所有模块
+2025-08-17 17:45:12 [    INFO] EvoForgeSystem:362 - 停止所有模块
+2025-08-17 17:45:12 [    INFO] EvoForgeSystem:430 - 关闭模块协调器
+2025-08-17 17:45:12 [    INFO] EvoForgeSystem:430 - 关闭模块协调器
+2025-08-17 17:45:12 [    INFO] EvoForgeSystem:375 - EvoForge 系统关闭完成
+2025-08-17 17:45:12 [    INFO] EvoForgeSystem:375 - EvoForge 系统关闭完成
+2025-08-17 17:45:12 [    INFO] main:725 - EvoForge 系统退出
+2025-08-17 17:45:12 [    INFO] main:725 - EvoForge 系统退出
+2025-08-17 17:45:20 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:45:20 [    INFO] LoggingSystem:491 - 日志系统初始化完成
+2025-08-17 17:45:20 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:45:20 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:45:20 [    INFO] LoggingSystem:491 - 日志系统初始化完成
+2025-08-17 17:45:20 [    INFO] LoggingSystem:491 - 日志系统初始化完成
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:234 - 日志系统初始化完成
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:234 - 日志系统初始化完成
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:244 - 初始化错误处理器
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:244 - 初始化错误处理器
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:247 - 错误处理器初始化完成
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:247 - 错误处理器初始化完成
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:257 - 初始化模块协调器
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:257 - 初始化模块协调器
+2025-08-17 17:45:20 [    INFO] ModuleCoordinator:463 - 模块协调器初始化完成
+2025-08-17 17:45:20 [    INFO] ModuleCoordinator:463 - 模块协调器初始化完成
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:260 - 模块协调器初始化完成
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:260 - 模块协调器初始化完成
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:270 - 初始化业务模块
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:270 - 初始化业务模块
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:273 - 初始化数字细胞系统
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:273 - 初始化数字细胞系统
+2025-08-17 17:45:20 [    INFO] gae.digital_cell.physics_engine:396 - 物理引擎初始化完成: 边界=(Vector3D(x=-50.0, y=-50.0, z=-50.0), Vector3D(x=50.0, y=50.0, z=50.0)), 网格大小=5.0, 温度=310.0K
+2025-08-17 17:45:20 [    INFO] gae.digital_cell.physics_engine:396 - 物理引擎初始化完成: 边界=(Vector3D(x=-50.0, y=-50.0, z=-50.0), Vector3D(x=50.0, y=50.0, z=50.0)), 网格大小=5.0, 温度=310.0K
+2025-08-17 17:45:20 [    INFO] gae.digital_cell.digital_cell:597 - 创建数字细胞 f83aaee4-c2aa-46cc-9b63-2cff6e068ca5，位置: (0.0, 0.0, 0.0)
+2025-08-17 17:45:20 [    INFO] gae.digital_cell.digital_cell:597 - 创建数字细胞 f83aaee4-c2aa-46cc-9b63-2cff6e068ca5，位置: (0.0, 0.0, 0.0)
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:280 - 初始化基因表达系统
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:280 - 初始化基因表达系统
+2025-08-17 17:45:20 [    INFO] gae.digital_cell.gene_expression:588 - 基因表达系统初始化完成
+2025-08-17 17:45:20 [    INFO] gae.digital_cell.gene_expression:588 - 基因表达系统初始化完成
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:287 - 初始化进化引擎
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:287 - 初始化进化引擎
+2025-08-17 17:45:20 [    INFO] gae.engine.engine:849 - 增强型进化引擎初始化完成，算法: hybrid
+2025-08-17 17:45:20 [    INFO] gae.engine.engine:849 - 增强型进化引擎初始化完成，算法: hybrid
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:300 - 初始化多模态评估系统
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:300 - 初始化多模态评估系统
+2025-08-17 17:45:20 [    INFO] gae.llm_oracle.fitness:480 - 多模态评估系统初始化完成，工作线程数: 4
+2025-08-17 17:45:20 [    INFO] gae.llm_oracle.fitness:480 - 多模态评估系统初始化完成，工作线程数: 4
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:307 - 初始化安全执行器
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:307 - 初始化安全执行器
+2025-08-17 17:45:20 [    INFO] gae.sandbox.secure_executor:607 - 安全执行器初始化完成
+2025-08-17 17:45:20 [    INFO] gae.sandbox.secure_executor:607 - 安全执行器初始化完成
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:314 - 所有业务模块初始化完成
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:314 - 所有业务模块初始化完成
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:316 - 业务模块初始化完成
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:316 - 业务模块初始化完成
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:166 - EvoForge 系统初始化完成
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:166 - EvoForge 系统初始化完成
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:341 - EvoForge 系统启动成功
+2025-08-17 17:45:20 [    INFO] EvoForgeSystem:341 - EvoForge 系统启动成功
+2025-08-17 17:45:20 [    INFO] main:705 - 系统运行中，按 Ctrl+C 退出
+2025-08-17 17:45:20 [    INFO] main:705 - 系统运行中，按 Ctrl+C 退出
+2025-08-17 17:46:17 [    INFO] PerformanceMonitor:244 - 系统监控已启动，监控间隔: 5.0秒
+2025-08-17 17:46:17 [    INFO] LoggingSystem:491 - 日志系统初始化完成

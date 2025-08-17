@@ -30,7 +30,11 @@ from dataclasses import dataclass, field
 from enum import Enum
 from abc import ABC, abstractmethod
 from pathlib import Path
-import resource
+try:
+    import resource
+except ImportError:
+    # Windows doesn't have resource module
+    resource = None
 import multiprocessing
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, TimeoutError
 import contextlib
@@ -464,6 +468,10 @@ class ProcessSandbox:
     
     def _setup_process_limits(self):
         """设置进程资源限制 (仅Unix系统)"""
+        if resource is None:
+            logger.warning("resource模块不可用 (Windows系统)，跳过资源限制设置")
+            return
+            
         try:
             # 设置内存限制
             memory_limit = self.limits.max_memory_mb * 1024 * 1024

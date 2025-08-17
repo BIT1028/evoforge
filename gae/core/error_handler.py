@@ -36,9 +36,47 @@ import uuid
 from contextlib import contextmanager
 import psutil
 import gc
-import resource
+try:
+    import resource
+except ImportError:
+    # Windows doesn't have resource module
+    resource = None
 from concurrent.futures import ThreadPoolExecutor, Future
 import queue
+
+# EvoForge异常类定义
+class EvoForgeError(Exception):
+    """EvoForge基础异常"""
+    def __init__(self, message: str, error_code: str = None):
+        super().__init__(message)
+        self.message = message
+        self.error_code = error_code or 'EVOFORGE_ERROR'
+
+class ValidationError(EvoForgeError):
+    """验证错误"""
+    def __init__(self, message: str, field: str = None):
+        super().__init__(message, 'VALIDATION_ERROR')
+        self.field = field
+
+class ConfigurationError(EvoForgeError):
+    """配置错误"""
+    def __init__(self, message: str):
+        super().__init__(message, 'CONFIG_ERROR')
+
+class DatabaseError(EvoForgeError):
+    """数据库错误"""
+    def __init__(self, message: str):
+        super().__init__(message, 'DATABASE_ERROR')
+
+class EngineError(EvoForgeError):
+    """引擎错误"""
+    def __init__(self, message: str):
+        super().__init__(message, 'ENGINE_ERROR')
+
+class SecurityError(EvoForgeError):
+    """安全错误"""
+    def __init__(self, message: str):
+        super().__init__(message, 'SECURITY_ERROR')
 
 class ErrorSeverity(Enum):
     """错误严重程度"""

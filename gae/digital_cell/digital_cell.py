@@ -558,12 +558,11 @@ class DigitalCell:
         self.molecule_counts: Dict[MoleculeType, int] = defaultdict(int)
         
         # 3D物理模拟引擎集成
+        bounds_size = radius * 2
         self.physics_engine = PhysicsEngine(
-            boundary_size=Vector3D(radius*2, radius*2, radius*2),
-            temperature=310.0,  # 37°C in Kelvin
-            viscosity=0.001,    # 水的粘度
-            enable_brownian=True,
-            enable_collisions=True
+            bounds=(Vector3D(-bounds_size/2, -bounds_size/2, -bounds_size/2), 
+                   Vector3D(bounds_size/2, bounds_size/2, bounds_size/2)),
+            temperature=310.0  # 37°C in Kelvin
         )
         
         # 细胞器
