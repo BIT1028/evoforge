@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="喀迈拉计划 - 导演椅WebUI，一个基于进化算法的代码生成和优化平台" />
+    <meta name="keywords" content="进化算法,代码生成,人工智能,机器学习,优化" />
+    <meta name="author" content="Chimera Project Team" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://chimera-director.com/" />
+    <meta property="og:title" content="喀迈拉计划 - 导演椅WebUI" />
+    <meta property="og:description" content="基于进化算法的代码生成和优化平台" />
+    <meta property="og:image" content="/og-image.png" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://chimera-director.com/" />
+    <meta property="twitter:title" content="喀迈拉计划 - 导演椅WebUI" />
+    <meta property="twitter:description" content="基于进化算法的代码生成和优化平台" />
+    <meta property="twitter:image" content="/twitter-image.png" />
+    
+    <!-- 主题颜色 -->
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="msapplication-TileColor" content="#3b82f6" />
+    
+    <!-- 预加载关键资源 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <title>喀迈拉计划 - 导演椅WebUI</title>
+    
+    <style>
+      /* 加载动画 */
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out;
+      }
+      
+      .loading-screen.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      .loading-logo {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 2rem;
+        animation: pulse 2s infinite;
+      }
+      
+      .loading-text {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        font-family: 'Inter', sans-serif;
+      }
+      
+      .loading-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1rem;
+        margin-bottom: 2rem;
+        font-family: 'Inter', sans-serif;
+      }
+      
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-top: 3px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes pulse {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 0.8;
+        }
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* 隐藏默认的根元素直到React加载 */
+      #root {
+        opacity: 0;
+        transition: opacity 0.3s ease-in;
+      }
+      
+      #root.loaded {
+        opacity: 1;
+      }
+      
+      /* 基础样式重置 */
+      * {
+        box-sizing: border-box;
+      }
+      
+      body {
+        margin: 0;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: #f9fafb;
+      }
+      
+      /* 无JavaScript提示 */
+      .no-js {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #1f2937;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        font-family: 'Inter', sans-serif;
+      }
+      
+      .no-js h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: #f59e0b;
+      }
+      
+      .no-js p {
+        font-size: 1.125rem;
+        text-align: center;
+        max-width: 600px;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+      }
+      
+      .no-js ul {
+        text-align: left;
+        max-width: 400px;
+      }
+      
+      .no-js li {
+        margin-bottom: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 无JavaScript提示 -->
+    <noscript>
+      <div class="no-js">
+        <h1>⚠️ JavaScript 已禁用</h1>
+        <p>
+          喀迈拉计划导演椅WebUI需要JavaScript才能正常运行。
+          请启用JavaScript并刷新页面。
+        </p>
+        <p>如何启用JavaScript：</p>
+        <ul>
+          <li><strong>Chrome:</strong> 设置 → 隐私设置和安全性 → 网站设置 → JavaScript</li>
+          <li><strong>Firefox:</strong> about:config → javascript.enabled → true</li>
+          <li><strong>Safari:</strong> 偏好设置 → 安全性 → 启用JavaScript</li>
+          <li><strong>Edge:</strong> 设置 → Cookie和网站权限 → JavaScript</li>
+        </ul>
+      </div>
+    </noscript>
+    
+    <!-- 加载屏幕 -->
+    <div id="loading-screen" class="loading-screen">
+      <svg class="loading-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="45" stroke="rgba(255,255,255,0.3)" stroke-width="3"/>
+        <path d="M50 10 L70 30 L50 50 L30 30 Z" fill="white" opacity="0.9"/>
+        <path d="M50 50 L70 70 L50 90 L30 70 Z" fill="white" opacity="0.7"/>
+        <circle cx="50" cy="50" r="8" fill="white"/>
+      </svg>
+      
+      <h1 class="loading-text">喀迈拉计划</h1>
+      <p class="loading-subtitle">导演椅WebUI 正在启动...</p>
+      
+      <div class="loading-spinner"></div>
+    </div>
+    
+    <!-- React应用根节点 -->
+    <div id="root"></div>
+    
+    <!-- 应用脚本 -->
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- 加载完成处理 -->
+    <script>
+      // 页面加载完成后隐藏加载屏幕
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const loadingScreen = document.getElementById('loading-screen');
+          const root = document.getElementById('root');
+          
+          if (loadingScreen) {
+            loadingScreen.classList.add('hidden');
+            setTimeout(function() {
+              loadingScreen.remove();
+            }, 500);
+          }
+          
+          if (root) {
+            root.classList.add('loaded');
+          }
+        }, 1000); // 最少显示1秒加载屏幕
+      });
+      
+      // 错误处理
+      window.addEventListener('error', function(e) {
+        console.error('应用加载错误:', e.error);
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+          loadingScreen.innerHTML = `
+            <div style="text-align: center; color: white;">
+              <h1 style="color: #ef4444; margin-bottom: 1rem;">⚠️ 加载失败</h1>
+              <p style="margin-bottom: 2rem;">应用无法正常加载，请检查网络连接或刷新页面重试。</p>
+              <button onclick="window.location.reload()" style="
+                background: white;
+                color: #1f2937;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 6px;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+              " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                刷新页面
+              </button>
+            </div>
+          `;
+        }
+      });
+      
+      // 性能监控
+      if ('performance' in window) {
+        window.addEventListener('load', function() {
+          setTimeout(function() {
+            const perfData = performance.getEntriesByType('navigation')[0];
+            if (perfData) {
+              console.log('页面加载性能:', {
+                DNS查询: perfData.domainLookupEnd - perfData.domainLookupStart,
+                TCP连接: perfData.connectEnd - perfData.connectStart,
+                请求响应: perfData.responseEnd - perfData.requestStart,
+                DOM解析: perfData.domContentLoadedEventEnd - perfData.responseEnd,
+                总加载时间: perfData.loadEventEnd - perfData.navigationStart
+              });
+            }
+          }, 0);
+        });
+      }
+    </script>
+  </body>
+</html>
