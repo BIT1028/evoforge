@@ -47,18 +47,128 @@ class ConfigScope(Enum):
 @dataclass
 class DatabaseConfig:
     """数据库配置"""
+    # 基础连接配置
     host: str = "localhost"
     port: int = 5432
     database: str = "evoforge"
     username: str = "postgres"
     password: str = ""
+    
+    # 连接池配置
     pool_size: int = 10
     max_overflow: int = 20
     pool_timeout: int = 30
+    pool_recycle: int = 3600  # 连接回收时间（秒）
+    pool_pre_ping: bool = True  # 连接前ping检查
     
-    def get_connection_string(self) -> str:
+    # 异步连接池配置
+    async_pool_size: int = 20
+    async_max_overflow: int = 30
+    async_pool_timeout: int = 30
+    
+    # TimescaleDB配置
+    enable_timescaledb: bool = True
+    timescale_chunk_time_interval: str = "1 day"  # 时间分块间隔
+    timescale_retention_policy: str = "30 days"  # 数据保留策略
+    enable_compression: bool = True  # 启用压缩
+    compression_after: str = "7 days"  # 压缩延迟
+    
+    # 性能优化配置
+    statement_timeout: int = 30000  # 语句超时（毫秒）
+    lock_timeout: int = 10000  # 锁超时（毫秒）
+    idle_in_transaction_session_timeout: int = 60000  # 事务空闲超时
+    
+    # SSL配置
+    ssl_mode: str = "prefer"  # disable, allow, prefer, require, verify-ca, verify-full
+    ssl_cert: Optional[str] = None
+    ssl_key: Optional[str] = None
+    ssl_ca: Optional[str] = None
+    
+    # 连接选项
+    connect_timeout: int = 10
+    command_timeout: int = 60
+    server_settings: Dict[str, str] = field(default_factory=lambda: {
+        "application_name": "EvoForge",
+        "timezone": "UTC"
+    })
+    
+    def get_connection_string(self, async_mode: bool = False) -> str:
         """获取连接字符串"""
-        return f"postgresql://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
+        base_url = f"postgresql://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
+        
+        # 添加连接参数
+        params = []
+        if self.ssl_mode != "prefer":
+            params.append(f"sslmode={self.ssl_mode}")
+        if self.connect_timeout != 10:
+            params.append(f"connect_timeout={self.connect_timeout}")
+        
+        # 添加服务器设置
+        for key, value in self.server_settings.items():
+            params.append(f"{key}={value}")
+        
+        if params:
+            base_url += "?" + "&".join(params)
+        
+        return base_url
+    
+    def get_async_connection_string(self) -> str:
+        """获取异步连接字符串"""
+        return self.get_connection_string(async_mode=True)
+    
+    def get_pool_config(self) -> Dict[str, Any]:
+        """获取连接池配置"""
+        return {
+            "pool_size": self.pool_size,
+            "max_overflow": self.max_overflow,
+            "pool_timeout": self.pool_timeout,
+            "pool_recycle": self.pool_recycle,
+            "pool_pre_ping": self.pool_pre_ping
+        }
+    
+    def get_async_pool_config(self) -> Dict[str, Any]:
+        """获取异步连接池配置"""
+        return {
+            "min_size": self.async_pool_size // 2,
+            "max_size": self.async_pool_size,
+            "max_queries": 50000,
+            "max_inactive_connection_lifetime": self.pool_recycle,
+            "timeout": self.async_pool_timeout
+        }
+    
+    def get_timescale_config(self) -> Dict[str, Any]:
+        """获取TimescaleDB配置"""
+        return {
+            "enable_timescaledb": self.enable_timescaledb,
+            "chunk_time_interval": self.timescale_chunk_time_interval,
+            "retention_policy": self.timescale_retention_policy,
+            "enable_compression": self.enable_compression,
+            "compression_after": self.compression_after
+        }
+    
+    def validate(self) -> List[str]:
+        """验证数据库配置"""
+        errors = []
+        
+        if not self.host:
+            errors.append("数据库主机不能为空")
+        
+        if not (1 <= self.port <= 65535):
+            errors.append("数据库端口必须在1-65535范围内")
+        
+        if not self.database:
+            errors.append("数据库名不能为空")
+        
+        if not self.username:
+            errors.append("数据库用户名不能为空")
+        
+        if self.pool_size <= 0:
+            errors.append("连接池大小必须大于0")
+        
+        if self.ssl_mode not in ["disable", "allow", "prefer", "require", "verify-ca", "verify-full"]:
+            errors.append("无效的SSL模式")
+        
+        return errors
 
 @dataclass
 class LoggingConfig:

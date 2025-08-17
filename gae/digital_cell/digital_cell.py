@@ -29,6 +29,7 @@ from .macro_molecule import (
     MacroMolecule, MoleculeType, Vector3D, BindingSite, BindingSiteType,
     Protein, mRNA, tRNA, Lipid, ResourceToken, EnergyToken, create_molecule
 )
+from .physics_engine import PhysicsEngine, PhysicsConstants
 
 # 配置日志
 logging.basicConfig(level=logging.DEBUG)
@@ -556,6 +557,15 @@ class DigitalCell:
         self.spatial_index = SpatialIndex()
         self.molecule_counts: Dict[MoleculeType, int] = defaultdict(int)
         
+        # 3D物理模拟引擎集成
+        self.physics_engine = PhysicsEngine(
+            boundary_size=Vector3D(radius*2, radius*2, radius*2),
+            temperature=310.0,  # 37°C in Kelvin
+            viscosity=0.001,    # 水的粘度
+            enable_brownian=True,
+            enable_collisions=True
+        )
+        
         # 细胞器
         self.organelles: Dict[str, Organelle] = {}
         self._initialize_organelles()
@@ -580,10 +590,13 @@ class DigitalCell:
             'successful_bindings': 0,
             'molecules_created': 0,
             'molecules_degraded': 0,
-            'energy_consumed': 0.0
+            'energy_consumed': 0.0,
+            'physics_steps': 0,
+            'collision_events': 0
         }
         
         logger.info(f"创建数字细胞 {self.cell_id}，位置: ({self.position.x}, {self.position.y}, {self.position.z})")
+        logger.debug(f"细胞 {self.cell_id} 物理引擎初始化完成")
     
     def _initialize_organelles(self) -> None:
         """初始化细胞器"""
@@ -630,12 +643,20 @@ class DigitalCell:
         if len(self.molecules) >= 10000:  # 限制分子数量
             return False
         
+        # 确保分子位置在细胞边界内
+        distance_from_center = molecule.position.magnitude()
+        if distance_from_center > self.radius - molecule.radius:
+            # 调整位置到细胞内
+            direction = molecule.position.normalize() if distance_from_center > 0 else Vector3D(1, 0, 0)
+            molecule.position = direction * (self.radius - molecule.radius - 1.0)
+        
         self.molecules[molecule.molecule_id] = molecule
         self.spatial_index.add_molecule(molecule.molecule_id, molecule.position)
+        self.physics_engine.add_molecule(molecule)  # 添加到物理引擎
         self.molecule_counts[molecule.get_molecule_type()] += 1
         self.stats['molecules_created'] += 1
         
-        logger.debug(f"细胞 {self.cell_id} 添加分子 {molecule.molecule_id}")
+        logger.debug(f"细胞 {self.cell_id} 添加分子 {molecule.molecule_id}，位置: {molecule.position}")
         return True
     
     def remove_molecule(self, molecule_id: str) -> Optional[MacroMolecule]:
@@ -643,6 +664,7 @@ class DigitalCell:
         if molecule_id in self.molecules:
             molecule = self.molecules.pop(molecule_id)
             self.spatial_index.remove_molecule(molecule_id, molecule.position)
+            self.physics_engine.remove_molecule(molecule_id)  # 从物理引擎移除
             self.molecule_counts[molecule.get_molecule_type()] -= 1
             self.stats['molecules_degraded'] += 1
             
@@ -669,59 +691,86 @@ class DigitalCell:
         return nearby_molecules
     
     def simulate_molecular_motion(self, dt: float) -> None:
-        """模拟分子运动"""
-        for molecule in list(self.molecules.values()):
+        """模拟分子运动（使用物理引擎）"""
+        # 使用物理引擎进行分子运动模拟
+        physics_results = self.physics_engine.step(dt)
+        
+        # 更新分子位置和速度
+        for molecule_id, molecule in self.molecules.items():
             if not molecule.is_active:
                 continue
             
             old_position = Vector3D(molecule.position.x, molecule.position.y, molecule.position.z)
             
-            # 布朗运动
-            molecule.brownian_motion(dt, self.temperature)
-            
-            # 边界检查
-            distance_from_center = molecule.position.magnitude()
-            if distance_from_center > self.radius:
-                # 反弹回细胞内
-                direction = molecule.position.normalize()
-                molecule.position = direction * (self.radius - molecule.radius)
-                molecule.velocity = molecule.velocity * -0.5  # 减速反弹
+            # 从物理引擎获取更新后的位置和速度
+            if molecule_id in physics_results['updated_molecules']:
+                physics_data = physics_results['updated_molecules'][molecule_id]
+                molecule.position = physics_data['position']
+                molecule.velocity = physics_data['velocity']
             
             # 更新空间索引
             self.spatial_index.update_molecule_position(molecule.molecule_id, old_position, molecule.position)
+        
+        # 更新统计信息
+        self.stats['physics_steps'] += 1
+        self.stats['collision_events'] += physics_results.get('collision_count', 0)
     
     def simulate_molecular_interactions(self, dt: float) -> None:
-        """模拟分子交互"""
+        """模拟分子交互（使用物理引擎碰撞检测）"""
         interaction_count = 0
         max_interactions = 100  # 限制每次循环的交互数量
         
-        molecules_list = list(self.molecules.values())
-        random.shuffle(molecules_list)  # 随机化交互顺序
+        # 从物理引擎获取碰撞信息
+        physics_results = self.physics_engine.get_simulation_state()
+        collision_pairs = physics_results.get('recent_collisions', [])
         
-        for i, molecule1 in enumerate(molecules_list[:max_interactions]):
-            if not molecule1.is_active:
-                continue
+        # 处理物理引擎检测到的碰撞
+        for collision in collision_pairs[:max_interactions]:
+            mol_id1, mol_id2 = collision['molecule1_id'], collision['molecule2_id']
             
-            # 获取附近的分子
-            nearby_molecules = self.get_nearby_molecules(molecule1.position, 10.0)
-            
-            for molecule2 in nearby_molecules[:5]:  # 限制每个分子的交互数量
-                if (molecule2.molecule_id != molecule1.molecule_id and 
-                    molecule2.is_active and 
-                    molecule1.check_collision(molecule2)):
-                    
+            if mol_id1 in self.molecules and mol_id2 in self.molecules:
+                molecule1 = self.molecules[mol_id1]
+                molecule2 = self.molecules[mol_id2]
+                
+                if molecule1.is_active and molecule2.is_active:
+                    # 执行分子交互
                     interaction_result = molecule1.interact_with(molecule2)
                     self.stats['total_interactions'] += 1
                     
                     if interaction_result['binding_occurred']:
                         self.stats['successful_bindings'] += 1
+                        logger.debug(f"分子结合: {mol_id1} <-> {mol_id2}")
                     
                     interaction_count += 1
-                    if interaction_count >= max_interactions:
-                        break
+        
+        # 补充随机交互（用于非碰撞的化学反应）
+        if interaction_count < max_interactions // 2:
+            molecules_list = list(self.molecules.values())
+            random.shuffle(molecules_list)
             
-            if interaction_count >= max_interactions:
-                break
+            for molecule1 in molecules_list[:max_interactions - interaction_count]:
+                if not molecule1.is_active:
+                    continue
+                
+                # 获取附近的分子
+                nearby_molecules = self.get_nearby_molecules(molecule1.position, 15.0)
+                
+                for molecule2 in nearby_molecules[:3]:  # 限制每个分子的交互数量
+                    if (molecule2.molecule_id != molecule1.molecule_id and 
+                        molecule2.is_active and 
+                        random.random() < 0.1):  # 10%概率进行化学反应
+                        
+                        interaction_result = molecule1.interact_with(molecule2)
+                        self.stats['total_interactions'] += 1
+                        
+                        if interaction_result['binding_occurred']:
+                            self.stats['successful_bindings'] += 1
+                        
+                        interaction_count += 1
+                        break
+                
+                if interaction_count >= max_interactions:
+                    break
     
     def process_organelles(self, dt: float) -> None:
         """处理细胞器"""
@@ -792,31 +841,87 @@ class DigitalCell:
             self.state = CellState.DIVIDING
     
     def life_cycle_step(self, dt: float) -> None:
-        """生命周期步骤"""
+        """生命周期步骤（完整的细胞模拟循环）"""
         if self.state == CellState.DEAD or self.state == CellState.DYING:
             return
         
         try:
-            # 1. 分子运动
+            # 1. 物理模拟：分子运动和碰撞检测
             self.simulate_molecular_motion(dt)
             
-            # 2. 分子交互
+            # 2. 化学反应：分子交互和结合
             self.simulate_molecular_interactions(dt)
             
-            # 3. 细胞器处理
+            # 3. 生物过程：细胞器处理
             self.process_organelles(dt)
             
-            # 4. 分子降解
+            # 4. 分子生命周期：降解和回收
             self.simulate_degradation(dt)
             
-            # 5. 更新细胞状态
+            # 5. 细胞状态：能量、健康和生命周期管理
             self.update_cell_state(dt)
             
+            # 6. 环境适应：温度、pH等参数调节
+            self._adapt_to_environment(dt)
+            
             self.cycle_time += dt
+            
+            # 定期日志输出
+            if int(self.cycle_time) % 10 == 0 and self.cycle_time - dt < int(self.cycle_time):
+                logger.debug(f"细胞 {self.cell_id} 生命周期: 时间={self.cycle_time:.1f}s, 能量={self.energy:.1f}, 分子数={len(self.molecules)}")
             
         except Exception as e:
             logger.error(f"细胞 {self.cell_id} 生命周期错误: {e}")
             self.state = CellState.STRESSED
+    
+    def _adapt_to_environment(self, dt: float) -> None:
+        """环境适应机制"""
+        try:
+            # 温度适应
+            target_temp = 310.0  # 37°C
+            temp_diff = abs(self.temperature - target_temp)
+            if temp_diff > 5.0:
+                # 温度偏差过大，消耗额外能量维持稳态
+                energy_cost = temp_diff * 0.1 * dt
+                self.energy -= energy_cost
+                self.stats['energy_consumed'] += energy_cost
+                
+                if temp_diff > 15.0:
+                    self.health -= 0.5 * dt  # 极端温度损害健康
+            
+            # pH适应
+            target_ph = 7.4
+            ph_diff = abs(self.ph - target_ph)
+            if ph_diff > 0.5:
+                # pH偏差影响酶活性
+                for organelle in self.organelles.values():
+                    if hasattr(organelle, 'efficiency'):
+                        organelle.efficiency *= (1.0 - ph_diff * 0.1)
+            
+            # 渗透压适应
+            target_osmolarity = 300.0
+            osm_diff = abs(self.osmolarity - target_osmolarity)
+            if osm_diff > 50.0:
+                # 渗透压失衡影响细胞体积
+                volume_change = osm_diff / 1000.0
+                self.radius *= (1.0 + volume_change)
+                
+                # 更新物理引擎边界
+                new_boundary = Vector3D(self.radius*2, self.radius*2, self.radius*2)
+                self.physics_engine.boundary_size = new_boundary
+            
+            # 分子密度调节
+            molecule_density = len(self.molecules) / (4/3 * 3.14159 * self.radius**3)
+            if molecule_density > 0.001:  # 过度拥挤
+                # 增加分子降解率
+                for molecule in list(self.molecules.values())[:10]:
+                    if random.random() < 0.05:  # 5%概率额外降解
+                        molecule.stability *= 0.95
+            
+            logger.debug(f"细胞 {self.cell_id} 环境适应: 温度={self.temperature:.1f}K, pH={self.ph:.1f}, 渗透压={self.osmolarity:.1f}")
+            
+        except Exception as e:
+            logger.error(f"细胞 {self.cell_id} 环境适应错误: {e}")
     
     def start_simulation(self) -> None:
         """开始模拟"""
@@ -853,6 +958,8 @@ class DigitalCell:
     
     def get_state(self) -> Dict[str, Any]:
         """获取细胞状态"""
+        physics_state = self.physics_engine.get_simulation_state()
+        
         return {
             'cell_id': self.cell_id,
             'position': {'x': self.position.x, 'y': self.position.y, 'z': self.position.z},
@@ -866,7 +973,18 @@ class DigitalCell:
             'organelle_count': len(self.organelles),
             'cycle_time': self.cycle_time,
             'is_running': self.is_running,
-            'stats': self.stats.copy()
+            'stats': self.stats.copy(),
+            'physics_state': {
+                'total_kinetic_energy': physics_state.get('total_kinetic_energy', 0.0),
+                'average_velocity': physics_state.get('average_velocity', 0.0),
+                'collision_rate': physics_state.get('collision_rate', 0.0),
+                'spatial_distribution': physics_state.get('spatial_distribution', {})
+            },
+            'environment': {
+                'temperature': self.temperature,
+                'ph': self.ph,
+                'osmolarity': self.osmolarity
+            }
         }
     
     def add_gene(self, gene_id: str, sequence: str) -> bool:
@@ -917,6 +1035,60 @@ class DigitalCell:
             'exchanged_molecules': exchanged_molecules,
             'recognition_score': self.glycoprotein_system.recognize_cell(other_cell.glycoprotein_system)
         }
+    
+    def divide_cell(self) -> Optional['DigitalCell']:
+        """细胞分裂（创建子细胞）"""
+        if self.state != CellState.DIVIDING or self.energy < self.division_threshold:
+            return None
+        
+        try:
+            # 创建子细胞
+            daughter_position = Vector3D(
+                self.position.x + random.uniform(-20, 20),
+                self.position.y + random.uniform(-20, 20),
+                self.position.z + random.uniform(-20, 20)
+            )
+            
+            daughter_cell = DigitalCell(
+                position=daughter_position,
+                radius=self.radius * 0.8  # 子细胞稍小
+            )
+            
+            # 分配资源
+            energy_split = self.energy * 0.4  # 给子细胞40%能量
+            self.energy -= energy_split
+            daughter_cell.energy = energy_split
+            
+            # 复制部分分子
+            molecules_to_copy = list(self.molecules.values())[:len(self.molecules)//3]
+            for molecule in molecules_to_copy:
+                molecule_copy = create_molecule(
+                    molecule.get_molecule_type(),
+                    position=Vector3D(
+                        daughter_position.x + random.uniform(-10, 10),
+                        daughter_position.y + random.uniform(-10, 10),
+                        daughter_position.z + random.uniform(-10, 10)
+                    )
+                )
+                daughter_cell.add_molecule(molecule_copy)
+            
+            # 复制基因
+            for organelle in self.organelles.values():
+                if isinstance(organelle, Nucleus):
+                    for gene_id, sequence in organelle.dna_sequences.items():
+                        daughter_cell.add_gene(gene_id, sequence)
+            
+            # 重置分裂状态
+            self.state = CellState.HEALTHY
+            self.division_threshold *= 1.2  # 增加下次分裂阈值
+            
+            logger.info(f"细胞分裂: {self.cell_id} -> {daughter_cell.cell_id}")
+            return daughter_cell
+            
+        except Exception as e:
+            logger.error(f"细胞分裂错误: {e}")
+            self.state = CellState.STRESSED
+            return None
 
 if __name__ == "__main__":
     # 测试代码
